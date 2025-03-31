@@ -9,7 +9,8 @@
     "db:create:dev": "createdbjs ${DATABASE_DB:-auth_passport_challenge_dev} --user=${DATABASE_USER:-postgres} --password=${DATABASE_PASSWORD:-postgres} --host=${DATABASE_HOST:-127.0.0.1}",
     "db": "node --loader ts-node/esm ./node_modules/.bin/knex",
     "db:migrate:dev": "npm run db migrate:latest",
-    "db:rollback:dev": "npm run db migrate:rollback"
+    "db:rollback:dev": "npm run db migrate:rollback",
+    "db:make:dev": "npm run db migrate:make"
   },
   "author": "",
   "license": "ISC",
@@ -28,7 +29,9 @@
     "@fastify/formbody": "^8.0.2",
     "@fastify/session": "^11.1.0",
     "@fastify/view": "^11.0.0",
+    "@types/bcrypt": "^5.0.2",
     "ajv-formats": "^3.0.1",
+    "bcrypt": "^5.1.1",
     "concurrently": "^9.1.2",
     "dotenv": "^16.4.7",
     "ejs": "^3.1.10",
