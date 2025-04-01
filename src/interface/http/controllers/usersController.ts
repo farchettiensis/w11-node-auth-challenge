@@ -1,6 +1,9 @@
-import { z } from 'zod';
 import { handler } from '../../../_lib/http/handler.js';
 import { UserModel } from '../../../infrastructure/database/models/UserModel.js';
+import {
+  CreateUserSchema,
+  UpdateUserSchema,
+} from '../../schemas/userSchemas.js';
 
 const index = handler(async (_request, reply) => {
   const users = await UserModel.query();
@@ -89,53 +92,3 @@ const edit = handler<{ Params: { id: string } }>(async (request, reply) => {
 });
 
 export { index, create, store, edit, update };
-
-const CreateUserSchema = z
-  .object({
-    name: z.string().nonempty(),
-    email: z.string().email(),
-    password: z.string().nonempty(),
-    role: z.enum(['ADMIN', 'DEALERSHIP']),
-    dealershipId: z.string().optional(),
-  })
-  .transform((data) => {
-    let dealershipId = undefined;
-    if (data.dealershipId && data.dealershipId.trim() !== '') {
-      dealershipId = Number.parseInt(data.dealershipId, 10) || undefined;
-    }
-
-    return { ...data, dealershipId };
-  })
-  .refine(
-    (data) =>
-      data.role === 'ADMIN' ||
-      (data.dealershipId && !Number.isNaN(data.dealershipId)),
-    {
-      message: 'A dealership user must have a valid dealershipId.',
-      path: ['dealershipId'],
-    },
-  );
-
-const UpdateUserSchema = z
-  .object({
-    name: z.string().nonempty(),
-    email: z.string().email().nonempty(),
-    role: z.enum(['ADMIN', 'DEALERSHIP']),
-    dealershipId: z.string().optional(),
-  })
-  .transform((data) => {
-    let dealershipId = undefined;
-    if (data.dealershipId && data.dealershipId.trim() !== '') {
-      dealershipId = Number.parseInt(data.dealershipId, 10) || undefined;
-    }
-    return { ...data, dealershipId };
-  })
-  .refine(
-    (data) =>
-      data.role === 'ADMIN' ||
-      (data.dealershipId && !Number.isNaN(data.dealershipId)),
-    {
-      message: 'A dealership user must have a valid dealershipId.',
-      path: ['dealershipId'],
-    },
-  );
