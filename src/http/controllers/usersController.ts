@@ -1,6 +1,6 @@
 import { z } from 'zod';
 import { handler } from '../../_lib/http/handler.js';
-import { UserModel, type UserRole } from '../../database/models/UserModel.js';
+import { UserModel } from '../../database/models/UserModel.js';
 
 const index = handler(async (_request, reply) => {
   const users = await UserModel.query();
