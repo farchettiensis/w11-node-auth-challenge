@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { Env, EnvType } from './_lib/env.js';
+import { Env, type EnvType } from './_lib/env.js';
 
 const env = Env.string('NODE_ENV', 'development') as EnvType;
 
