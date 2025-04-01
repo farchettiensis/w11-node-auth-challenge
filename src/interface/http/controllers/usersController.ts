@@ -1,4 +1,6 @@
 import { handler } from '../../../_lib/http/handler.js';
+import { createUser } from '../../../application/useCases/user/createUser.js';
+import { updateUser } from '../../../application/useCases/user/updateUser.js';
 import { UserModel } from '../../../infrastructure/database/models/UserModel.js';
 import {
   CreateUserSchema,
@@ -28,18 +30,17 @@ const store = handler(async (request, reply) => {
 
   const { name, email, password, role, dealershipId } = parseResult.data;
 
-  try {
-    await UserModel.query().insert({
-      name,
-      email,
-      password,
-      role,
-      dealershipId,
-    } as Partial<UserModel>);
+  const result = await createUser({
+    name,
+    email,
+    password,
+    role,
+    dealershipId,
+  });
 
-    return reply.redirect('/users');
-  } catch (error) {
-    console.log(error);
+  if (!result.success) {
+    console.error(result.error.message);
+
     return reply.view('users/create', {
       user: new UserModel().$set({
         name,
@@ -49,13 +50,11 @@ const store = handler(async (request, reply) => {
       }),
     });
   }
+
+  return reply.redirect('/users');
 });
 
 const update = handler<{ Params: { id: string } }>(async (request, reply) => {
-  const user = await UserModel.query()
-    .findById(request.params.id)
-    .throwIfNotFound();
-
   const parseResult = UpdateUserSchema.safeParse(request.body);
 
   if (!parseResult.success) {
@@ -66,21 +65,22 @@ const update = handler<{ Params: { id: string } }>(async (request, reply) => {
 
   const { name, email, role, dealershipId } = parseResult.data;
 
-  const newUser = user.$set({
+  const result = await updateUser(Number(request.params.id), {
     name,
     email,
     role,
     dealershipId,
   });
 
-  try {
-    await newUser.$query().update();
+  if (!result.success) {
+    console.error(result.error.message);
 
-    return reply.redirect('/users');
-  } catch (error) {
-    console.error(error);
-    return reply.view('users/update', { user: newUser });
+    return reply.view('users/update', {
+      user: request.body,
+    });
   }
+
+  return reply.redirect('/users');
 });
 
 const edit = handler<{ Params: { id: string } }>(async (request, reply) => {
