@@ -29,7 +29,7 @@ export class UserModel extends BaseModel {
 
   static jsonSchema: JSONSchema = {
     type: 'object',
-    required: ['id', 'email', 'name', 'password', 'role'],
+    required: ['email', 'name', 'role'],
     properties: {
       id: { type: 'number' },
       email: { type: 'string' },
