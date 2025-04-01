@@ -1,4 +1,4 @@
-import { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
+import type { FastifyReply, FastifyRequest, RouteGenericInterface } from 'fastify';
 
 type Handler<ReqOptions extends RouteGenericInterface = RouteGenericInterface> = (
   request: FastifyRequest<ReqOptions>,
@@ -7,4 +7,4 @@ type Handler<ReqOptions extends RouteGenericInterface = RouteGenericInterface> =
 
 const handler = <ReqOptions extends RouteGenericInterface>(h: Handler<ReqOptions>) => h;
 
-export { handler, Handler };
+export { handler, type Handler };
