@@ -24,8 +24,8 @@ export class UserModel extends BaseModel {
   encryptedPassword!: string;
   role!: UserRole;
 
-  dealershipId!: number;
-  dealership!: DealershipSchema;
+  dealershipId?: number;
+  dealership?: DealershipSchema;
 
   static jsonSchema: JSONSchema = {
     type: 'object',
