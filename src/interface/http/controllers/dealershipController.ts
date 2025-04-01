@@ -1,5 +1,5 @@
-import { handler } from '../../_lib/http/handler.js';
-import { DealershipModel } from '../../database/models/DealershipModel.js';
+import { handler } from '../../../_lib/http/handler.js';
+import { DealershipModel } from '../../../infrastructure/database/models/DealershipModel.js';
 
 const index = handler(async (_request, reply) => {
   const dealerships = await DealershipModel.query();

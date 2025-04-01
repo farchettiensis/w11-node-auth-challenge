@@ -1,5 +1,5 @@
-import { handler } from '../../_lib/http/handler.js';
-import { VehicleModel } from '../../database/models/VehicleModel.js';
+import { handler } from '../../../_lib/http/handler.js';
+import { VehicleModel } from '../../../infrastructure/database/models/VehicleModel.js';
 
 const index = handler(async (_request, reply) => {
   const vehicles = await VehicleModel.query();

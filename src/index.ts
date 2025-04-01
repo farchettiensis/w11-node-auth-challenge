@@ -1,6 +1,6 @@
-import { makeDatabase } from './database/database.js';
 import { config } from './config.js';
-import { makeServer } from './http/server.js';
+import { makeDatabase } from './infrastructure/database/database.js';
+import { makeServer } from './interface/http/server.js';
 
 const database = makeDatabase();
 
