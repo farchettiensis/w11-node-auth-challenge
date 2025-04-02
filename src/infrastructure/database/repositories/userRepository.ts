@@ -4,7 +4,9 @@ import { UserModel } from '../models/UserModel.js';
 export const UserRepository = {
   async create(user: UserModel) {
     try {
-      const createdUser = await UserModel.query().insertAndFetch(user);
+      const createdUser = await UserModel.query()
+        .insertAndFetch(user)
+        .withGraphFetched('dealership');
 
       return Result.succeed(createdUser);
     } catch (error) {
@@ -16,7 +18,9 @@ export const UserRepository = {
 
   async update(id: number, user: UserModel) {
     try {
-      const updatedUser = await UserModel.query().patchAndFetchById(id, user);
+      const updatedUser = await UserModel.query()
+        .patchAndFetchById(id, user)
+        .withGraphFetched('dealership');
 
       return Result.succeed(updatedUser);
     } catch (error) {
