@@ -27,6 +27,7 @@
     "@types/ejs": "^3.1.5",
     "@types/knex-cleaner": "^1.3.6",
     "@types/node": "^20.14.8",
+    "@types/passport-local": "^1.0.38",
     "fishery": "^2.2.3",
     "knex-cleaner": "^1.3.1",
     "nodemon": "^3.1.9",
@@ -38,6 +39,7 @@
   "dependencies": {
     "@fastify/cookie": "^11.0.2",
     "@fastify/formbody": "^8.0.2",
+    "@fastify/passport": "^3.0.2",
     "@fastify/session": "^11.1.0",
     "@fastify/view": "^11.0.0",
     "@types/bcrypt": "^5.0.2",
@@ -50,6 +52,7 @@
     "fastify-plugin": "^5.0.1",
     "knex": "^3.1.0",
     "objection": "^3.1.5",
+    "passport-local": "^1.0.0",
     "pg": "^8.14.1",
     "pgtools": "^1.0.1",
     "zod": "^3.24.2"

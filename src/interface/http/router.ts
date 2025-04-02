@@ -1,28 +1,105 @@
 import plugin from 'fastify-plugin';
+import { authValidation } from './auth/auth.js';
 import * as DealershipController from './controllers/dealershipController.js';
 import * as UsersController from './controllers/usersController.js';
 import * as VehiclesController from './controllers/vehiclesController.js';
 
 const router = plugin(async (server, _) => {
-  server.get('/dealerships', DealershipController.index);
-  server.get('/dealerships/create', DealershipController.create);
-  server.post('/dealerships', DealershipController.store);
-  server.get('/dealerships/:id/edit', DealershipController.edit);
-  server.post('/dealerships/:id', DealershipController.update);
-  server.get('/dealerships/:id/delete', DealershipController.destroy);
-
+  server.get('/', VehiclesController.index);
   server.get('/vehicles', VehiclesController.index);
-  server.get('/vehicles/create', VehiclesController.create);
-  server.post('/vehicles', VehiclesController.store);
-  server.get('/vehicles/:id/edit', VehiclesController.edit);
-  server.post('/vehicles/:id', VehiclesController.update);
-  server.get('/vehicles/:id/delete', VehiclesController.destroy);
 
-  server.get('/users', UsersController.index);
-  server.get('/users/create', UsersController.create);
-  server.post('/users', UsersController.store);
-  server.get('/users/:id/edit', UsersController.edit);
-  server.post('/users/:id', UsersController.update);
+  server.get(
+    '/dealerships',
+    { preHandler: authValidation },
+    DealershipController.index,
+  );
+  server.get(
+    '/dealerships/create',
+    { preHandler: authValidation },
+    DealershipController.create,
+  );
+  server.post<{ Body: { name: string } }>(
+    '/dealerships',
+    { preHandler: authValidation },
+    DealershipController.store,
+  );
+  server.get<{ Params: { id: string } }>(
+    '/dealerships/:id/edit',
+    { preHandler: authValidation },
+    DealershipController.edit,
+  );
+  server.post<{
+    Params: { id: string };
+    Body: { name: string };
+  }>(
+    '/dealerships/:id',
+    { preHandler: authValidation },
+    DealershipController.update,
+  );
+  server.get<{ Params: { id: string } }>(
+    '/dealerships/:id/delete',
+    { preHandler: authValidation },
+    DealershipController.destroy,
+  );
+
+  server.get(
+    '/vehicles/create',
+    { preHandler: authValidation },
+    VehiclesController.create,
+  );
+  server.post<{
+    Body: {
+      name: string;
+      brand: string;
+      model: string;
+      year: string;
+      comments: string;
+      dealershipId: number;
+    };
+  }>('/vehicles', { preHandler: authValidation }, VehiclesController.store);
+  server.get<{ Params: { id: string } }>(
+    '/vehicles/:id/edit',
+    { preHandler: authValidation },
+    VehiclesController.edit,
+  );
+  server.post<{
+    Params: { id: string };
+    Body: {
+      name: string;
+      brand: string;
+      model: string;
+      year: string;
+      comments: string;
+      dealershipId: number;
+    };
+  }>(
+    '/vehicles/:id',
+    { preHandler: authValidation },
+    VehiclesController.update,
+  );
+  server.get<{ Params: { id: string } }>(
+    '/vehicles/:id/delete',
+    { preHandler: authValidation },
+    VehiclesController.destroy,
+  );
+
+  server.get('/users', { preHandler: authValidation }, UsersController.index);
+  server.get(
+    '/users/create',
+    { preHandler: authValidation },
+    UsersController.create,
+  );
+  server.post('/users', { preHandler: authValidation }, UsersController.store);
+  server.get<{ Params: { id: string } }>(
+    '/users/:id/edit',
+    { preHandler: authValidation },
+    UsersController.edit,
+  );
+  server.post<{ Params: { id: string } }>(
+    '/users/:id',
+    { preHandler: authValidation },
+    UsersController.update,
+  );
 });
 
 export { router };
