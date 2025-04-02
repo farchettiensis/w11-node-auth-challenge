@@ -10,13 +10,5 @@ export interface UpdateUserDTO {
   name: string;
   email: string;
   role: 'ADMIN' | 'DEALERSHIP';
-  dealershipId?: number;
-}
-
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  role: 'ADMIN' | 'DEALERSHIP';
-  dealershipId?: number;
+  dealershipId?: number | null;
 }
