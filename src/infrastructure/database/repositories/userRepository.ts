@@ -32,7 +32,9 @@ export const UserRepository = {
 
   async findById(id: number) {
     try {
-      const user = await UserModel.query().findById(id);
+      const user = await UserModel.query()
+        .findById(id)
+        .withGraphFetched('dealership');
 
       return Result.succeed(user);
     } catch (error) {
@@ -44,7 +46,9 @@ export const UserRepository = {
 
   async findByEmail(email: string) {
     try {
-      const user = await UserModel.query().findOne({ email });
+      const user = await UserModel.query()
+        .findOne({ email })
+        .withGraphFetched('dealership');
 
       return Result.succeed(user);
     } catch (error) {
