@@ -3,20 +3,19 @@ import { config } from '../../config.js';
 import { BaseModel } from './models/BaseModel.js';
 
 const makeDatabase = () => {
-  const knex = Knex.knex({
-    ...config.db[config.env],
-    debug: true,
-  });
+  const knex = Knex(config.db[config.env]);
 
   BaseModel.knex(knex);
 
   return {
-    async connect() {
+    knex,
+
+    async connect(config = { log: true }) {
       await knex.raw('SELECT 1');
       console.log('Database connected successfully.');
     },
 
-    async disconnect() {
+    async disconnect(config = { log: true }) {
       await knex.destroy();
       console.log('Database disconnected successfully.');
     },
