@@ -23,6 +23,13 @@ const store = handler<{
 }>(async (request, reply) => {
   const { name, brand, model, year, comments, dealershipId } = request.body;
 
+  let finalDealershipId = null;
+  if (request.user?.role === 'DEALERSHIP') {
+    finalDealershipId = request.user.dealershipId;
+  } else {
+    finalDealershipId = dealershipId;
+  }
+
   try {
     await VehicleModel.query().insert({
       name,
@@ -30,7 +37,7 @@ const store = handler<{
       model,
       year,
       comments,
-      dealershipId,
+      dealershipId: finalDealershipId,
     });
 
     return reply.redirect('/vehicles');
@@ -43,7 +50,7 @@ const store = handler<{
         model,
         year,
         comments,
-        dealershipId,
+        dealershipId: finalDealershipId ?? undefined,
       }),
     });
   }
