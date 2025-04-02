@@ -10,8 +10,10 @@ export const VehicleFactory = Factory.define<
   VehicleModel
 >(({ onCreate, sequence, params }) => {
   onCreate(async (vehicle) => {
-    const dealership = await DealershipFactory.create();
-    vehicle.dealershipId = dealership.id;
+    if (!params.dealershipId) {
+      const dealership = await DealershipFactory.create();
+      vehicle.dealershipId = dealership.id;
+    }
 
     const createdVehicle = await VehicleModel.query()
       .insertAndFetch(vehicle)
@@ -20,14 +22,15 @@ export const VehicleFactory = Factory.define<
     return createdVehicle;
   });
 
+  const dealership = DealershipFactory.build();
+
   const {
     brand = faker.vehicle.manufacturer(),
     name = faker.vehicle.vehicle(),
     model = faker.vehicle.model(),
-    year = String(faker.number.int({ min: 1886, max: 2025 })),
+    year = faker.string.numeric({ length: { min: 1886, max: 2025 } }),
     comments = faker.lorem.words(),
-    dealershipId,
-    dealership,
+    dealershipId = DealershipFactory.build().id,
   } = params;
 
   return {
