@@ -65,7 +65,6 @@ describe('Vehicles E2E', () => {
         body: JSON.stringify(payload),
       });
       expect(response.status).toBe(200);
-      const responseBody = response.body;
 
       const vehicles = await VehicleModel.query();
 

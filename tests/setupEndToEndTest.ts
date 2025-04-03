@@ -23,14 +23,14 @@ export const setupEndToEndTest = async () => {
         payload: input,
       });
 
-      const setCookie = response.headers['set-cookie'];
-      if (!setCookie) {
-        throw new Error('Authentication failed: no set-cookie header returned');
+      if (!response.cookies || response.cookies.length === 0) {
+        throw new Error('Authentication failed: no cookies returned');
       }
-      if (Array.isArray(setCookie)) {
-        return setCookie[0];
-      }
-      return setCookie;
+
+      const cookieObj = response.cookies[0];
+      const cookieHeader = `${cookieObj.name}=${cookieObj.value}`;
+
+      return cookieHeader;
     },
   };
 };
