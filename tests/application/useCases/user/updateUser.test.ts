@@ -115,4 +115,25 @@ describe('updateUser', () => {
       });
     });
   });
+
+  describe('when the user is not found', () => {
+    it('fails with a NOT_FOUND error', async () => {
+      const nonExistentUserId = 999999;
+
+      const updateResult = await updateUser(nonExistentUserId, {
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
+        role: UserRole.DEALERSHIP,
+        dealershipId: 123,
+      });
+
+      expect(updateResult).toMatchObject({
+        success: false,
+        error: {
+          code: ErrorCodes.NOT_FOUND,
+          message: 'User not found',
+        },
+      });
+    });
+  });
 });
