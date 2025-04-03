@@ -19,7 +19,7 @@ const store = handler<{ Body: { name: string } }>(async (request, reply) => {
   try {
     await DealershipModel.query().insert({ name });
 
-    return reply.redirect('dealerships');
+    return reply.redirect('/dealerships');
   } catch (error) {
     console.error(error);
     return reply.view('dealerships/create', {
