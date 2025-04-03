@@ -1,11 +1,12 @@
 import { z } from 'zod';
+import { UserRole } from '../../infrastructure/database/models/UserModel.js';
 
 export const CreateUserSchema = z
   .object({
     name: z.string().nonempty(),
     email: z.string().email(),
     password: z.string().nonempty(),
-    role: z.enum(['ADMIN', 'DEALERSHIP']),
+    role: z.nativeEnum(UserRole),
     dealershipId: z.string().optional(),
   })
   .transform((data) => {
@@ -30,7 +31,7 @@ export const UpdateUserSchema = z
   .object({
     name: z.string().nonempty(),
     email: z.string().email().nonempty(),
-    role: z.enum(['ADMIN', 'DEALERSHIP']),
+    role: z.nativeEnum(UserRole),
     dealershipId: z.string().optional(),
   })
   .transform((data) => {
