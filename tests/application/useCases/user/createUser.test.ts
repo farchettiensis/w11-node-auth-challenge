@@ -112,4 +112,25 @@ describe('createUser', () => {
       });
     });
   });
+
+  describe('when dealershipId is not provided for a dealership user', () => {
+    it('fails to create a new dealership user', async () => {
+      const userData = {
+        name: faker.person.fullName(),
+        email: faker.internet.email(),
+        password: faker.internet.password(),
+        role: UserRole.DEALERSHIP,
+      };
+
+      const result = await createUser(userData);
+
+      expect(result).toMatchObject({
+        success: false,
+        error: {
+          code: ErrorCodes.INVALID,
+          message: expect.stringContaining('dealershipId'),
+        },
+      });
+    });
+  });
 });

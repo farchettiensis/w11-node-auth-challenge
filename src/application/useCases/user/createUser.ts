@@ -24,13 +24,22 @@ export const createUser = async (
     );
   }
 
-  const user = UserModel.fromJson({
-    name,
-    email,
-    password,
-    role,
-    dealershipId,
-  });
+  try {
+    const user = UserModel.fromJson({
+      name,
+      email,
+      password,
+      role,
+      dealershipId,
+    });
 
-  return await UserRepository.create(user);
+    return await UserRepository.create(user);
+  } catch (error) {
+    return Result.fail(
+      new ApplicationError(
+        ErrorCodes.INVALID,
+        error instanceof Error ? error.message : 'Validation error',
+      ),
+    );
+  }
 };
