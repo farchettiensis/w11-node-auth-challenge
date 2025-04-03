@@ -4,7 +4,6 @@ export default defineConfig({
   test: {
     globals: true,
     fileParallelism: false,
-    include: ['tests/**/*.test.ts'],
-    exclude: ['tests/e2e/**/*.test.ts'],
+    include: ['tests/e2e/**/*.test.ts'],
   },
 });

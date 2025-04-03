@@ -5,7 +5,12 @@ import { Env, type EnvType } from './_lib/env.js';
 const env = Env.string('NODE_ENV', 'development') as EnvType;
 
 const http = {
-  port: Env.number('PORT', 3000),
+  development: {
+    port: Env.number('PORT', 3000),
+  },
+  test: {
+    port: 3001,
+  },
 };
 
 const db = {

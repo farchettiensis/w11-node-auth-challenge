@@ -9,7 +9,7 @@ database
   .then(async () => {
     const server = makeServer();
 
-    const address = await server.listen({ port: config.http.port });
+    const address = await server.listen({ port: config.http[config.env].port });
 
     console.log(`Webserver listening at: ${address}`);
   })
