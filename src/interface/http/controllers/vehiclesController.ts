@@ -78,14 +78,23 @@ const update = handler<{
   const vehicle = await VehicleModel.query()
     .findById(request.params.id)
     .throwIfNotFound();
+
   const { name, brand, model, year, comments, dealershipId } = request.body;
+
+  let finalDealershipId = null;
+  if (request.user?.role === 'DEALERSHIP') {
+    finalDealershipId = request.user.dealershipId;
+  } else {
+    finalDealershipId = dealershipId;
+  }
+
   const newVehicle = vehicle.$set({
     name,
     brand,
     model,
     year,
     comments,
-    dealershipId,
+    dealershipId: finalDealershipId,
   });
 
   try {

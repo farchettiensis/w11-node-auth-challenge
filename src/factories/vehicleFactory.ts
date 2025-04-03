@@ -24,11 +24,13 @@ export const VehicleFactory = Factory.define<
 
   const dealership = DealershipFactory.build();
 
+  const currentYear = new Date().getFullYear();
+
   const {
     brand = faker.vehicle.manufacturer(),
     name = faker.vehicle.vehicle(),
     model = faker.vehicle.model(),
-    year = faker.string.numeric({ length: { min: 1886, max: 2025 } }),
+    year = String(faker.number.int({ min: 1886, max: currentYear })),
     comments = faker.lorem.words(),
     dealershipId = DealershipFactory.build().id,
   } = params;
