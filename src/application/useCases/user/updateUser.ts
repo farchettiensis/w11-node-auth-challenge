@@ -1,8 +1,6 @@
 import { Result } from '../../../_lib/result.js';
-import {
-  ApplicationError,
-  ErrorCodes,
-} from '../../../errors/applicationError.js';
+import { ApplicationError } from '../../../errors/applicationError.js';
+import { ErrorCodes } from '../../../errors/errorCodes.js';
 import type { UserModel } from '../../../infrastructure/database/models/UserModel.js';
 import { UserRepository } from '../../../infrastructure/database/repositories/userRepository.js';
 import type { UpdateUserDTO } from '../../dtos/userDTOs.js';
