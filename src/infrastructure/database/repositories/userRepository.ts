@@ -1,4 +1,6 @@
 import { Result } from '../../../_lib/result.js';
+import { DatabaseError } from '../../../errors/databaseError.js';
+import { ErrorCodes } from '../../../errors/errorCodes.js';
 import { UserModel } from '../models/UserModel.js';
 
 export const UserRepository = {
@@ -12,7 +14,9 @@ export const UserRepository = {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Database error';
 
-      return Result.fail<UserModel>({ code: 'DATABASE_ERROR', message });
+      return Result.fail<UserModel>(
+        new DatabaseError(ErrorCodes.DATABASE_ERROR, message),
+      );
     }
   },
 
@@ -26,7 +30,9 @@ export const UserRepository = {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Database error';
 
-      return Result.fail<UserModel>({ code: 'DATABASE_ERROR', message });
+      return Result.fail<UserModel>(
+        new DatabaseError(ErrorCodes.DATABASE_ERROR, message),
+      );
     }
   },
 
@@ -40,7 +46,9 @@ export const UserRepository = {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Database error';
 
-      return Result.fail<UserModel>({ code: 'DATABASE_ERROR', message });
+      return Result.fail<UserModel>(
+        new DatabaseError(ErrorCodes.DATABASE_ERROR, message),
+      );
     }
   },
 
@@ -54,7 +62,9 @@ export const UserRepository = {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Database error';
 
-      return Result.fail<UserModel>({ code: 'DATABASE_ERROR', message });
+      return Result.fail<UserModel>(
+        new DatabaseError(ErrorCodes.DATABASE_ERROR, message),
+      );
     }
   },
 
@@ -66,7 +76,9 @@ export const UserRepository = {
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Database error';
 
-      return Result.fail<UserModel[]>({ code: 'DATABASE_ERROR', message });
+      return Result.fail<UserModel[]>(
+        new DatabaseError(ErrorCodes.DATABASE_ERROR, message),
+      );
     }
   },
 };

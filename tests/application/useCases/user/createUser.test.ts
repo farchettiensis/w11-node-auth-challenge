@@ -1,6 +1,7 @@
 import { faker } from '@faker-js/faker';
 import { afterAll, beforeAll, beforeEach, describe, expect, it } from 'vitest';
 import { createUser } from '../../../../src/application/useCases/user/createUser.js';
+import { ErrorCodes } from '../../../../src/errors/errorCodes.js';
 import { DealershipFactory } from '../../../../src/factories/dealershipFactory.js';
 import { UserRole } from '../../../../src/infrastructure/database/models/UserModel.js';
 import {
@@ -105,7 +106,7 @@ describe('createUser', () => {
       expect(duplicateResult).toMatchObject({
         success: false,
         error: {
-          code: 'INVALID',
+          code: ErrorCodes.INVALID,
           message: 'Email already in use',
         },
       });

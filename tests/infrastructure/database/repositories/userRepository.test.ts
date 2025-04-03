@@ -9,6 +9,8 @@ import {
   it,
   vi,
 } from 'vitest';
+import { DatabaseError } from '../../../../src/errors/databaseError.js';
+import { ErrorCodes } from '../../../../src/errors/errorCodes.js';
 import { DealershipFactory } from '../../../../src/factories/dealershipFactory.js';
 import { UserFactory } from '../../../../src/factories/userFactory.js';
 import {
@@ -154,7 +156,7 @@ describe('UserRepository', () => {
 
         expect(updateResult).toMatchObject({
           success: false,
-          error: { code: 'DATABASE_ERROR', message: 'Database error' },
+          error: { code: ErrorCodes.DATABASE_ERROR, message: 'Database error' },
         });
       });
     });
@@ -219,7 +221,7 @@ describe('UserRepository', () => {
 
         expect(result).toMatchObject({
           success: false,
-          error: { code: 'DATABASE_ERROR', message: 'Database error' },
+          error: { code: ErrorCodes.DATABASE_ERROR, message: 'Database error' },
         });
       });
     });
@@ -284,7 +286,7 @@ describe('UserRepository', () => {
 
         expect(result).toMatchObject({
           success: false,
-          error: { code: 'DATABASE_ERROR', message: 'Database error' },
+          error: { code: ErrorCodes.DATABASE_ERROR, message: 'Database error' },
         });
       });
     });
@@ -327,14 +329,14 @@ describe('UserRepository', () => {
     describe('when a database error occurs', () => {
       it('returns a database error failure', async () => {
         vi.spyOn(UserModel, 'query').mockRejectedValue(
-          new Error('Database error'),
+          new DatabaseError(ErrorCodes.DATABASE_ERROR, 'Database error'),
         );
 
         const result = await UserRepository.findAll();
 
         expect(result).toMatchObject({
           success: false,
-          error: { code: 'DATABASE_ERROR', message: 'Database error' },
+          error: { code: ErrorCodes.DATABASE_ERROR, message: 'Database error' },
         });
       });
     });
