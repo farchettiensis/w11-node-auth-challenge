@@ -193,7 +193,7 @@ describe('UserController', () => {
           name: 'Example',
           email: 'example@example.com',
           role: 'DEALERSHIP',
-          dealershipId: 999,
+          dealershipId: '999',
         },
       };
       const reply = {
@@ -214,7 +214,7 @@ describe('UserController', () => {
         name: 'Example',
         email: 'example@example.com',
         role: 'DEALERSHIP',
-        dealershipId: expect.any(Number),
+        dealershipId: 999,
       });
       expect(reply.view).toHaveBeenCalledWith('users/update', {
         user: request.body,
@@ -239,7 +239,7 @@ describe('UserController', () => {
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
       (updateUser as any).mockResolvedValue({
         success: true,
-        data: { id: 456, name: 'Example' /* etc. */ },
+        data: { id: 456, name: 'Example' },
       });
 
       // biome-ignore lint/suspicious/noExplicitAny: <explanation>
