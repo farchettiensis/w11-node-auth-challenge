@@ -1,5 +1,4 @@
 import type { preValidationAsyncHookHandler } from 'fastify';
-import { UserRole } from '../../../infrastructure/database/models/UserModel.js';
 
 export const authValidation: preValidationAsyncHookHandler = async (
   request,
