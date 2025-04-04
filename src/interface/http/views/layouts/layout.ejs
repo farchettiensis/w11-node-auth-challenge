@@ -8,8 +8,18 @@
 </head>
 <body>
 <header>
+    <div>
+        <% Object.entries(flash).forEach(([type, messages]) => { %>
+            <% messages.forEach((message) => { %>
+                <div>
+                    <%= message; %>
+                </div>
+            <% }); %>
+        <% }); %>
+    </div>
+    <br>
     <% if (currentUser) { %>
-        <span>Welcome, <%= currentUser.name %></span>
+        <span>Welcome, <%= currentUser.name; %></span>
         <a href="/signout">Log Out</a>
     <% } else { %>
         <a href="/signin">Log In</a>
@@ -17,7 +27,7 @@
 </header>
 <section>
     <div>
-        <%- body %>
+        <%- body; %>
     </div>
 </section>
 </body>

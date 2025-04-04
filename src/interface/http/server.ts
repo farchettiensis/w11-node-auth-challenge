@@ -5,7 +5,7 @@ import { fastifyFormbody } from '@fastify/formbody';
 import { fastifySession } from '@fastify/session';
 import FastifyView from '@fastify/view';
 import EJS from 'ejs';
-import Fastify from 'fastify';
+import Fastify, { type FastifyReply } from 'fastify';
 import type { UserSchema } from '../../infrastructure/database/models/UserModel.js';
 import { authPlugin } from './authPlugin.js';
 import { router } from './router.js';
@@ -39,7 +39,8 @@ const makeServer = () => {
 
   server.addHook('preHandler', (request, reply, done) => {
     reply.locals = reply.locals || {};
-    reply.locals.currentUser = request.user ?? null;
+    reply.locals.flash = (reply.flash() ||
+      {}) as FastifyReply['locals']['flash'];
     done();
   });
 

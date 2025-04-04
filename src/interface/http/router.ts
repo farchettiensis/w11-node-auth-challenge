@@ -1,8 +1,12 @@
 import plugin from 'fastify-plugin';
-import { authValidation } from './auth/auth.js';
 import * as DealershipController from './controllers/dealershipController.js';
 import * as UsersController from './controllers/usersController.js';
 import * as VehiclesController from './controllers/vehiclesController.js';
+import {
+  adminOnly,
+  authValidation,
+  dealershipOnly,
+} from './policies/authPolicies.js';
 
 const router = plugin(async (server, _) => {
   server.get('/', VehiclesController.index);
@@ -10,22 +14,22 @@ const router = plugin(async (server, _) => {
 
   server.get(
     '/dealerships',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     DealershipController.index,
   );
   server.get(
     '/dealerships/create',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     DealershipController.create,
   );
   server.post<{ Body: { name: string } }>(
     '/dealerships',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     DealershipController.store,
   );
   server.get<{ Params: { id: string } }>(
     '/dealerships/:id/edit',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     DealershipController.edit,
   );
   server.post<{
@@ -33,18 +37,18 @@ const router = plugin(async (server, _) => {
     Body: { name: string };
   }>(
     '/dealerships/:id',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     DealershipController.update,
   );
   server.get<{ Params: { id: string } }>(
     '/dealerships/:id/delete',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     DealershipController.destroy,
   );
 
   server.get(
     '/vehicles/create',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, dealershipOnly] },
     VehiclesController.create,
   );
   server.post<{
@@ -56,10 +60,14 @@ const router = plugin(async (server, _) => {
       comments: string;
       dealershipId: number;
     };
-  }>('/vehicles', { preHandler: authValidation }, VehiclesController.store);
+  }>(
+    '/vehicles',
+    { preHandler: [authValidation, dealershipOnly] },
+    VehiclesController.store,
+  );
   server.get<{ Params: { id: string } }>(
     '/vehicles/:id/edit',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, dealershipOnly] },
     VehiclesController.edit,
   );
   server.post<{
@@ -74,30 +82,38 @@ const router = plugin(async (server, _) => {
     };
   }>(
     '/vehicles/:id',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, dealershipOnly] },
     VehiclesController.update,
   );
   server.get<{ Params: { id: string } }>(
     '/vehicles/:id/delete',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, dealershipOnly] },
     VehiclesController.destroy,
   );
 
-  server.get('/users', { preHandler: authValidation }, UsersController.index);
+  server.get(
+    '/users',
+    { preHandler: [authValidation, adminOnly] },
+    UsersController.index,
+  );
   server.get(
     '/users/create',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     UsersController.create,
   );
-  server.post('/users', { preHandler: authValidation }, UsersController.store);
+  server.post(
+    '/users',
+    { preHandler: [authValidation, adminOnly] },
+    UsersController.store,
+  );
   server.get<{ Params: { id: string } }>(
     '/users/:id/edit',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     UsersController.edit,
   );
   server.post<{ Params: { id: string } }>(
     '/users/:id',
-    { preHandler: authValidation },
+    { preHandler: [authValidation, adminOnly] },
     UsersController.update,
   );
 });
