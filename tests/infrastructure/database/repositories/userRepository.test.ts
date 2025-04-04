@@ -197,12 +197,15 @@ describe('UserRepository', () => {
     });
 
     describe('when the user does not exist', () => {
-      it('returns undefined', async () => {
+      it('fails with a NOT_FOUND error', async () => {
         const result = await UserRepository.findById(999);
 
         expect(result).toMatchObject({
           success: false,
-          error: { code: ErrorCodes.NOT_FOUND, message: 'User not found' },
+          error: {
+            code: ErrorCodes.NOT_FOUND,
+            message: 'User with that ID was not found!',
+          },
         });
       });
     });
@@ -261,13 +264,16 @@ describe('UserRepository', () => {
     });
 
     describe('when the user does not exist', () => {
-      it('returns undefined', async () => {
+      it('returns a NOT_FOUND error', async () => {
         const nonExistentEmail = 'nonexistent@example.com';
         const result = await UserRepository.findByEmail(nonExistentEmail);
 
         expect(result).toMatchObject({
-          success: true,
-          data: undefined,
+          success: false,
+          error: {
+            code: ErrorCodes.NOT_FOUND,
+            message: 'User with that email was not found!',
+          },
         });
       });
     });

@@ -10,20 +10,6 @@ export const createUser = async (
 ): Promise<Result<UserModel>> => {
   const { name, email, password, role, dealershipId } = input;
 
-  const findResult = await UserRepository.findByEmail(email);
-
-  if (!findResult.success) {
-    return findResult;
-  }
-
-  const existingUser = findResult.data;
-
-  if (existingUser) {
-    return Result.fail(
-      new ApplicationError(ErrorCodes.INVALID, 'Email already in use'),
-    );
-  }
-
   try {
     const user = UserModel.fromJson({
       name,

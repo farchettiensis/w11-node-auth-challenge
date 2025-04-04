@@ -86,7 +86,7 @@ describe('createUser', () => {
   });
 
   describe('when the email is already in use', () => {
-    it('fails to create a new user with duplicate email', async () => {
+    it('returns a database error', async () => {
       const dealership = await DealershipFactory.create();
 
       const email = faker.internet.email();
@@ -106,8 +106,7 @@ describe('createUser', () => {
       expect(duplicateResult).toMatchObject({
         success: false,
         error: {
-          code: ErrorCodes.INVALID,
-          message: 'Email already in use',
+          code: ErrorCodes.DATABASE_ERROR,
         },
       });
     });

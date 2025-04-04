@@ -71,7 +71,7 @@ describe('updateUser', () => {
   });
 
   describe('when the email is already in use by another user', () => {
-    it('fails to update the user with duplicate email', async () => {
+    it('fails with a DATABASE_ERROR', async () => {
       const dealership = await DealershipFactory.create();
 
       const userData1 = {
@@ -109,8 +109,7 @@ describe('updateUser', () => {
       expect(updateResult).toMatchObject({
         success: false,
         error: {
-          code: ErrorCodes.INVALID,
-          message: 'Email already in use',
+          code: ErrorCodes.DATABASE_ERROR,
         },
       });
     });
@@ -131,7 +130,6 @@ describe('updateUser', () => {
         success: false,
         error: {
           code: ErrorCodes.NOT_FOUND,
-          message: 'User not found',
         },
       });
     });

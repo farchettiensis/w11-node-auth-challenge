@@ -45,7 +45,10 @@ export const UserRepository = {
 
       if (!user) {
         return Result.fail<UserModel>(
-          new ApplicationError(ErrorCodes.NOT_FOUND, 'User not found'),
+          new ApplicationError(
+            ErrorCodes.NOT_FOUND,
+            'User with that ID was not found!',
+          ),
         );
       }
 
@@ -62,6 +65,15 @@ export const UserRepository = {
       const user = await UserModel.query()
         .findOne({ email })
         .withGraphFetched('dealership');
+
+      if (!user) {
+        return Result.fail<UserModel>(
+          new ApplicationError(
+            ErrorCodes.NOT_FOUND,
+            'User with that email was not found!',
+          ),
+        );
+      }
 
       return Result.succeed(user);
     } catch (error) {
