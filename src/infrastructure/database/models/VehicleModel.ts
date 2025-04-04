@@ -1,6 +1,6 @@
-import { JSONSchema, ModelObject, RelationMappings } from 'objection';
+import type { JSONSchema, ModelObject, RelationMappings } from 'objection';
 import { BaseModel } from './BaseModel.js';
-import { DealershipModel, DealershipSchema } from './DealershipModel.js';
+import { DealershipModel, type DealershipSchema } from './DealershipModel.js';
 
 class VehicleModel extends BaseModel {
   static tableName = 'vehicles';

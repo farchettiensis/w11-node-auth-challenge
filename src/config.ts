@@ -1,6 +1,6 @@
 import 'dotenv/config';
 
-import { Env, EnvType } from './_lib/env.js';
+import { Env, type EnvType } from './_lib/env.js';
 
 const env = Env.string('NODE_ENV', 'development') as EnvType;
 
@@ -11,6 +11,7 @@ const http = {
 const db = {
   development: {
     client: 'postgresql',
+    debug: true,
     connection: {
       database: Env.string('DATABASE_DB', 'auth_passport_challenge_dev'),
       port: Env.number('DATABASE_PORT', 5432),
@@ -22,6 +23,7 @@ const db = {
 
   test: {
     client: 'postgresql',
+    debug: false,
     connection: {
       database: Env.string('TEST_DATABASE_DB', 'auth_passport_challenge_test'),
       port: Env.number('TEST_DATABASE_PORT', 5432),

@@ -1,4 +1,4 @@
-import { JSONSchema, ModelObject } from 'objection';
+import type { JSONSchema, ModelObject } from 'objection';
 import { BaseModel } from './BaseModel.js';
 
 class DealershipModel extends BaseModel {

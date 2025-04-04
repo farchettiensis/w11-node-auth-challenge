@@ -1,0 +1,23 @@
+<label for="name">Name:</label>
+<input type="text" id="name" name="name" value="<%= user.name %>" />
+
+<label for="email">Email:</label>
+<input type="email" id="email" name="email" value="<%= user.email %>" />
+
+<% if (!user.id) { %>
+    <label for="password">Password</label>
+    <input type="password" id="password" name="password" />
+<% } %>
+
+<label for="role">Role</label>
+<select id="role" name="role">
+    <option value="ADMIN" <%= user && user.role === 'ADMIN' ? 'selected' : '' %>>Admin</option>
+    <option value="DEALERSHIP" <%= user && user.role === 'DEALERSHIP' ? 'selected' : '' %>>Dealership</option>
+</select>
+
+<label for="dealershipId">Dealership Id:</label>
+<input type="number" id="dealershipId" name="dealershipId" value="<%= user.dealershipId %>" />
+
+<button type="submit">
+    Save
+</button>
