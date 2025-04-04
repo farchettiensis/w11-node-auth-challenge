@@ -201,8 +201,8 @@ describe('UserRepository', () => {
         const result = await UserRepository.findById(999);
 
         expect(result).toMatchObject({
-          success: true,
-          data: undefined,
+          success: false,
+          error: { code: ErrorCodes.NOT_FOUND, message: 'User not found' },
         });
       });
     });

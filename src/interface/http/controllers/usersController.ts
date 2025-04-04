@@ -1,5 +1,7 @@
 import { handler } from '../../../_lib/http/handler.js';
 import { createUser } from '../../../application/useCases/user/createUser.js';
+import { findUser } from '../../../application/useCases/user/findUser.js';
+import { findUsers } from '../../../application/useCases/user/findUsers.js';
 import { updateUser } from '../../../application/useCases/user/updateUser.js';
 import { UserModel } from '../../../infrastructure/database/models/UserModel.js';
 import {
@@ -8,9 +10,13 @@ import {
 } from '../../schemas/userSchemas.js';
 
 const index = handler(async (_request, reply) => {
-  const users = await UserModel.query();
+  const result = await findUsers();
 
-  return reply.view('users/index', { users });
+  if (!result.success) {
+    return reply.redirect('users/');
+  }
+
+  return reply.view('users/index', { users: result.data });
 });
 
 const create = handler(async (_request, reply) => {
@@ -84,9 +90,13 @@ const update = handler<{ Params: { id: string } }>(async (request, reply) => {
 });
 
 const edit = handler<{ Params: { id: string } }>(async (request, reply) => {
-  const user = await UserModel.query()
-    .findById(request.params.id)
-    .throwIfNotFound();
+  const result = await findUser(Number(request.params.id));
+
+  if (!result.success) {
+    return reply.redirect('/users');
+  }
+
+  const user = result.data;
 
   return reply.view('users/update', { user });
 });

@@ -1,4 +1,5 @@
 import { Result } from '../../../_lib/result.js';
+import { ApplicationError } from '../../../errors/applicationError.js';
 import { DatabaseError } from '../../../errors/databaseError.js';
 import { ErrorCodes } from '../../../errors/errorCodes.js';
 import { UserModel } from '../models/UserModel.js';
@@ -36,19 +37,23 @@ export const UserRepository = {
     }
   },
 
-  async findById(id: number) {
+  async findById(id: number): Promise<Result<UserModel>> {
     try {
       const user = await UserModel.query()
         .findById(id)
         .withGraphFetched('dealership');
 
+      if (!user) {
+        return Result.fail<UserModel>(
+          new ApplicationError(ErrorCodes.NOT_FOUND, 'User not found'),
+        );
+      }
+
       return Result.succeed(user);
     } catch (error) {
       const message = error instanceof Error ? error.message : 'Database error';
 
-      return Result.fail<UserModel>(
-        new DatabaseError(ErrorCodes.DATABASE_ERROR, message),
-      );
+      return Result.fail<UserModel>({ code: 'DATABASE_ERROR', message });
     }
   },
 
